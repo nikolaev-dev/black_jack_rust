@@ -1,5 +1,6 @@
 extern crate rand;
 use rand::Rng;
+use std::io::{self, BufRead};
 
 struct Card {
     value: i32,
@@ -16,28 +17,45 @@ struct Round {
 }
 
 impl Round {
+
+    fn score(&mut self) {
+        self.player_score = self.player_cards.iter().map(|s| s.value).sum();
+        self.dealer_score = self.dealer_cards.iter().map(|s| s.value).sum();
+    }
+
     fn first_turn(&mut self) {
-        self.player_score = 10;
         self.player_cards.push(self.deck.remove(0));
-        println!("{}", self.player_cards[0].name);
+        self.player_cards.push(self.deck.remove(0));
+        self.dealer_cards.push(self.deck.remove(0));
+        self.dealer_cards.push(self.deck.remove(0));
+
+        self.score();
     }
 }
 
 
 fn main() {
 
+
     let mut round:Round = initial_round();
-    println!("Hello, world!");
-    println!("{:?}", round.player_name);
+    round.player_name = text_input();
+
     round.first_turn();
+    println!("player_name:  {}", round.player_name);
     println!("player_score: {}", round.player_score);
+    println!("dealer_score: {}", round.dealer_score);
+    let pcards:Vec<String> = round.player_cards.into_iter().map(|c| c.name).collect();
+    let dcards:Vec<String> = round.dealer_cards.into_iter().map(|c| c.name).collect();
+    println!("player cards: {:?}", pcards );
+    println!("player cards: {:?}", dcards );
+
 }
 
 
 
 fn initial_round() -> Round {
     Round {
-        player_name: "Alexander".to_string(),
+        player_name: String::new(),
         player_score: 0,
         dealer_score: 0,
         player_cards: vec![],
@@ -61,4 +79,13 @@ fn generate_cards() -> Vec<Card> {
     }
     rand::thread_rng().shuffle(&mut res);
     res
+}
+
+
+
+fn text_input() -> String {
+    let mut name = String::new();
+    let stdin = io::stdin();
+    stdin.lock().read_line(&mut name).expect("Could not read line");
+    name
 }
