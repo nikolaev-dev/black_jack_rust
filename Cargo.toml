@@ -1,0 +1,7 @@
+[package]
+name = "black_jack"
+version = "0.1.0"
+authors = ["Alexander Nikolaev <ni-ko-la@mail.ru>"]
+
+[dependencies]
+rand = "0.4"
