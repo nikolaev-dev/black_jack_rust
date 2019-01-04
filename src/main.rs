@@ -89,8 +89,6 @@ fn initial_round() -> Round {
     let name = text_input();
     Round {
         player_name: name,
-//        player_score: 0,
-//        dealer_score: 0,
         player_cards: vec![],
         player_cards_str: vec![],
         dealer_cards_str: vec![],
@@ -127,3 +125,5 @@ fn text_input() -> String {
 }
 
 
+// TODO сделать interface::show_info(&round)
+// TODO сделать deck::new
