@@ -105,6 +105,7 @@ fn text_input() -> String {
     let mut name = String::new();
     let stdin = io::stdin();
     stdin.lock().read_line(&mut name).expect("Could not read line");
+    name.pop();
     name
 }
 
