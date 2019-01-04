@@ -47,14 +47,25 @@ impl Round {
         self.player_cards_str = self.player_cards.clone().into_iter().map(|c| c.name).collect();
         self.dealer_cards_str = self.dealer_cards.clone().into_iter().map(|c| c.name).collect();
     }
+
+    fn player_turn(&mut self) {
+
+        println!("Введите 1, если хотите взять еще одну карту");
+        println!("Нажмите Enter, чтобы пропустить");
+
+        let input = text_input();
+        if input == String::from("1") {
+            self.player_cards.push(self.deck.remove(0));
+        }
+        self.cards_to_str();
+        self.score();
+    }
 }
 
 
 fn main() {
 
-    let mut round:Round = initial_round();
-    println!("Введите имя игрока");
-    round.player_name = text_input();
+    let mut round = initial_round();
 
     round.first_turn();
     println!("player_name:  {}", round.player_name);
@@ -65,13 +76,20 @@ fn main() {
     round.cards_to_str();
     println!("player cards: {:?}", round.player_cards_str );
     println!("player cards: {:?}", round.dealer_cards_str );
+
+    round.player_turn();
+    println!("player_score: {}", round.player_score);
+    println!("player cards: {:?}", round.player_cards_str );
+
 }
 
 
 
 fn initial_round() -> Round {
+    println!("Введите имя игрока");
+    let name = text_input();
     Round {
-        player_name: String::new(),
+        player_name: name,
         player_score: 0,
         dealer_score: 0,
         player_cards: vec![],
