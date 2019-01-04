@@ -40,6 +40,7 @@ impl Round {
         self.player_cards.push(self.deck.remove(0));
         self.dealer_cards.push(self.deck.remove(0));
         self.dealer_cards.push(self.deck.remove(0));
+        self.cards_to_str();
 
     }
 
@@ -59,6 +60,13 @@ impl Round {
         }
         self.cards_to_str();
     }
+
+    fn show_info(&self) {
+        println!("player_score: {}", self.player_score());
+        println!("dealer_score: {}", self.dealer_score());
+        println!("player cards: {:?}", self.player_cards_str );
+        println!("player cards: {:?}", self.dealer_cards_str );
+    }
 }
 
 
@@ -66,20 +74,12 @@ fn main() {
 
     let mut round = initial_round();
 
-    round.first_turn();
     println!("player_name:  {}", round.player_name);
-    println!("player_score: {}", round.player_score());
-    println!("dealer_score: {}", round.dealer_score());
 
-
-    round.cards_to_str();
-    println!("player cards: {:?}", round.player_cards_str );
-    println!("player cards: {:?}", round.dealer_cards_str );
-
+    round.first_turn();
+    round.show_info();
     round.player_turn();
-    println!("player_score: {}", round.player_score());
-    println!("player cards: {:?}", round.player_cards_str );
-
+    round.show_info();
 }
 
 
