@@ -18,8 +18,6 @@ impl Clone for Card {
 
 struct Round {
     player_name: String,
-    player_score: i32,
-    dealer_score: i32,
     deck:         Vec<Card>,
     player_cards: Vec<Card>,
     dealer_cards: Vec<Card>,
@@ -29,9 +27,12 @@ struct Round {
 
 impl Round {
 
-    fn score(&mut self) {
-        self.player_score = self.player_cards.iter().map(|s| s.value).sum();
-        self.dealer_score = self.dealer_cards.iter().map(|s| s.value).sum();
+    fn player_score(&self) -> i32 {
+        self.player_cards.iter().map(|s| s.value).sum()
+    }
+
+    fn dealer_score(&self) -> i32 {
+        self.dealer_cards.iter().map(|s| s.value).sum()
     }
 
     fn first_turn(&mut self) {
@@ -40,7 +41,6 @@ impl Round {
         self.dealer_cards.push(self.deck.remove(0));
         self.dealer_cards.push(self.deck.remove(0));
 
-        self.score();
     }
 
     fn cards_to_str(&mut self) {
@@ -58,7 +58,6 @@ impl Round {
             self.player_cards.push(self.deck.remove(0));
         }
         self.cards_to_str();
-        self.score();
     }
 }
 
@@ -69,8 +68,8 @@ fn main() {
 
     round.first_turn();
     println!("player_name:  {}", round.player_name);
-    println!("player_score: {}", round.player_score);
-    println!("dealer_score: {}", round.dealer_score);
+    println!("player_score: {}", round.player_score());
+    println!("dealer_score: {}", round.dealer_score());
 
 
     round.cards_to_str();
@@ -78,7 +77,7 @@ fn main() {
     println!("player cards: {:?}", round.dealer_cards_str );
 
     round.player_turn();
-    println!("player_score: {}", round.player_score);
+    println!("player_score: {}", round.player_score());
     println!("player cards: {:?}", round.player_cards_str );
 
 }
@@ -90,8 +89,8 @@ fn initial_round() -> Round {
     let name = text_input();
     Round {
         player_name: name,
-        player_score: 0,
-        dealer_score: 0,
+//        player_score: 0,
+//        dealer_score: 0,
         player_cards: vec![],
         player_cards_str: vec![],
         dealer_cards_str: vec![],
