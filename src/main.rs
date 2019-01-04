@@ -36,8 +36,8 @@ impl Round {
 
 fn main() {
 
-
     let mut round:Round = initial_round();
+    println!("Введите имя игрока");
     round.player_name = text_input();
 
     round.first_turn();
@@ -47,7 +47,7 @@ fn main() {
     let pcards:Vec<String> = round.player_cards.into_iter().map(|c| c.name).collect();
     let dcards:Vec<String> = round.dealer_cards.into_iter().map(|c| c.name).collect();
     println!("player cards: {:?}", pcards );
-    println!("player cards: {:?}", dcards );
+    println!("dealer cards: {:?}", dcards );
 
 }
 
@@ -89,3 +89,5 @@ fn text_input() -> String {
     stdin.lock().read_line(&mut name).expect("Could not read line");
     name
 }
+
+
