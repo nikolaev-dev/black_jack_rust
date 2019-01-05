@@ -1,20 +1,44 @@
-extern crate rand;
-use rand::Rng;
 use std::io::{self, BufRead};
+use deck::*;
+extern crate rand;
 
-struct Card {
-    value: i32,
-    name: String
-}
+mod deck {
 
-impl Clone for Card {
-    fn clone(&self) -> Card {
-        Card {
-            value: self.value,
-            name: self.name.clone()
+    use rand::Rng;
+
+
+    pub struct Card {
+        pub value: i32,
+        pub name: String
+    }
+
+    impl Clone for Card {
+        fn clone(&self) -> Card {
+            Card {
+                value: self.value,
+                name: self.name.clone()
+            }
         }
     }
+
+    pub fn new() -> Vec<Card> {
+        let suits = vec!["♠", "♥", "♣", "♦"];
+        let values = vec![(2,"2"),(3,"3"),(4,"4"),(5,"5"),
+                          (6,"6"),(7,"7"),(8,"8"),(9,"9"),
+                          (10,"10"),(10,"J"),(10,"Q"),(10, "K"),(11,"A")];
+
+        let mut res:Vec<Card> = vec![];
+        for s in &suits {
+            for v in &values {
+                let card = Card { value: v.0, name: s.to_string() + v.1};
+                res.push(card);
+            }
+        }
+        rand::thread_rng().shuffle(&mut res);
+        res
+    }
 }
+
 
 struct Round {
     player_name: String,
@@ -93,27 +117,9 @@ fn initial_round() -> Round {
         player_cards_str: vec![],
         dealer_cards_str: vec![],
         dealer_cards: vec![],
-        deck: generate_cards()
+        deck: deck::new()
     }
 }
-
-fn generate_cards() -> Vec<Card> {
-    let suits = vec!["♠", "♥", "♣", "♦"];
-    let values = vec![(2,"2"),(3,"3"),(4,"4"),(5,"5"),
-                                     (6,"6"),(7,"7"),(8,"8"),(9,"9"),
-                                     (10,"10"),(10,"J"),(10,"Q"),(10, "K"),(11,"A")];
-
-    let mut res:Vec<Card> = vec![];
-    for s in &suits {
-        for v in &values {
-            let card = Card { value: v.0, name: s.to_string() + v.1};
-            res.push(card);
-        }
-    }
-    rand::thread_rng().shuffle(&mut res);
-    res
-}
-
 
 
 fn text_input() -> String {
