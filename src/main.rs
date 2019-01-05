@@ -15,14 +15,16 @@ fn main() {
         player_balance: 100,
         dealer_balance: 100
     };
-
-    let mut round = round::new();
-
     println!("player_name:  {}", game.player_name);
 
-    round.init_turn();
-    interface::show_round_info(&round);
-    round.player_turn();
-    interface::show_round_info(&round);
-    interface::show_game_info(&game);
+    loop {
+        let mut round = round::new();
+
+        round.init_turn();
+        interface::show_round_info(&round);
+        round.player_turn();
+        interface::show_round_info(&round);
+        round.dealer_turn();
+        interface::show_game_info(&game);
+    }
 }

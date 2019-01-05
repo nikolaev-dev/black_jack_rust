@@ -3,10 +3,12 @@ use round::*;
 use game::*;
 
 pub fn show_round_info(round: &Round) {
+    println!();
+    println!("====");
     println!("player_score: {}", round.player_score());
     println!("dealer_score: {}", round.dealer_score());
     println!("player cards: {:?}", round.player_cards_str );
-    println!("player cards: {:?}", round.dealer_cards_str );
+    println!("dealer cards: {:?}", round.dealer_cards_str );
 }
 
 pub fn show_game_info(game: &Game) {
