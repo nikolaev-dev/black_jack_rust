@@ -2,9 +2,9 @@ extern crate rand;
 
 mod card;
 mod deck;
-mod round;
 mod game;
 mod interface;
+mod round;
 use game::*;
 use round::*;
 
@@ -14,7 +14,7 @@ fn main() {
     let mut game = Game {
         player_name: name,
         player_balance: 100,
-        dealer_balance: 100
+        dealer_balance: 100,
     };
     println!("player_name:  {}", game.player_name);
 
@@ -33,20 +33,16 @@ fn main() {
 
 fn pay_win(game: &mut Game, round: &Round) {
     match round.winner {
-        Winner::Draw => {
-            println!("Ничья")
-        },
+        Winner::Draw => println!("Ничья"),
         Winner::Dealer => {
             println!("Дилер выиграл");
             game.dealer_balance += 10;
             game.player_balance -= 10;
-        },
+        }
         Winner::Player => {
             println!("Игрок {} выиграл", game.player_name);
             game.dealer_balance -= 10;
             game.player_balance += 10;
         }
     }
-
 }
-
