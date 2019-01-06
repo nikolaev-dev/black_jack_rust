@@ -2,13 +2,20 @@ use card::*;
 use deck;
 use interface;
 
+pub enum Winner {
+    Player,
+    Dealer,
+    Draw
+}
+
 pub struct Round {
     pub deck:         Vec<Card>,
     pub player_cards: Vec<Card>,
     pub dealer_cards: Vec<Card>,
     pub player_cards_str: Vec<String>,
     pub dealer_cards_str: Vec<String>,
-    pub finished: bool
+    pub finished: bool,
+    pub winner: Winner
 }
 
 pub fn new() -> Round {
@@ -18,7 +25,8 @@ pub fn new() -> Round {
         dealer_cards_str: vec![],
         dealer_cards: vec![],
         deck: deck::new(),
-        finished: false
+        finished: false,
+        winner: Winner::Draw
     }
 }
 
@@ -68,6 +76,32 @@ impl Round {
         }
         self.cards_to_str();
         interface::show_round_info(&self);
+    }
+
+    pub fn set_winner(&mut self) {
+        let player_score = self.player_score();
+        let dealer_score = self.dealer_score();
+
+        if player_score > 21 {
+            self.winner = Winner::Dealer;
+            return;
+        }
+
+        if dealer_score > 21 {
+            self.winner = Winner::Player;
+            return;
+        }
+
+        if player_score == dealer_score {
+            self.winner = Winner::Draw;
+            return;
+        }
+
+        if player_score > dealer_score {
+            self.winner = Winner::Player;
+        } else {
+            self.winner = Winner::Dealer;
+        }
     }
 }
 
