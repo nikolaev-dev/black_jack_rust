@@ -72,7 +72,7 @@ impl Round {
             println!("Нажмите Enter, чтобы передать ход дилеру");
 
             let input = interface::input();
-            if input == String::from("1") {
+            if input == "1" {
                 self.player_cards.push(self.deck.remove(0));
                 self.cards_to_str();
                 interface::show_round_info(&self);
